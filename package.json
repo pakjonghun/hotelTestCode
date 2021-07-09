@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/gar-den/14hotel_back#readme",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "connect-mongo": "^4.4.1",
     "ejs": "^3.1.6",
     "express": "^4.17.1",

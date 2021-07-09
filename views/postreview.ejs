@@ -107,6 +107,33 @@
             });
         }
 
+        function postBook() {
+            $.ajax({
+                type: "POST",
+                url: "/api/book",
+                data: {
+                    roomId: "123",
+                    adult: 2,
+                    kid: 0,
+                },
+                success: function(response) {
+                    console.log(response);
+                }
+            });
+        }
+
+        function getBooks() {
+            $.ajax({
+                type: "GET",
+                url: "/api/books",
+                data: {},
+                success: function(response) {
+                    console.log(response);
+
+                }
+            });
+        }
+
     </script>
 </head>
 <body>
@@ -117,5 +144,7 @@
     <div class="reviews">
 
     </div>
+    <button onclick="postBook()">postbooks</button>
+    <button onclick="getBooks()">getbooks</button>
 </body>
 </html>
