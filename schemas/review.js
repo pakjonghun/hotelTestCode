@@ -6,18 +6,9 @@ const ReviewSchema = new mongoose.Schema({  // 참조 방식은 정훈님이 알
         ref: "User",
         require: true,
     },
-    date: {
-        type: String,
-        require: true,
-    },
-    title: {
-        Type: String,
-        require: true,
-    },
-    content: {
-        Type: String,
-        require: true,
-    }
+    date: String,
+    title: String,
+    content: String
 });
 
 ReviewSchema.virtual('reviewId').get(() => {

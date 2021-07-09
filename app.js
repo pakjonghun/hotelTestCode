@@ -22,7 +22,7 @@ app.use('/api/user', [userRouter]);
 const roomRouter = require('./routers/room');
 app.use('/api/room', [roomRouter]);
 const reviewRouter = require('./routers/review');
-app.use('/api/room', [reviewRouter]);
+app.use('/api/review', [reviewRouter]);
 
 app.listen(port, () => {
     console.log(`listening at http://localhost:${port}`);

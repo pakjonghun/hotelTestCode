@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+
+
+    <title>Document</title>
+    <script>
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const reviewId = urlParams.get("reviewId");
+
+        $(document).ready(function() {
+            getReviews();
+        })
+
+        function getReviews() {
+            $.ajax({
+                type: "GET",
+                url: "/api/review",
+                data: {},
+                success: function(response) {
+                    const reviews = response.reviews;
+
+                    for (let i = 0; i < reviews.length; i ++) {
+                        let new_date = new Date(reviews[i].date);
+                        new_date = String(new_date.getFullYear()) + " " + String(new_date.getMonth()+1 ) + " " + String(new_date.getDate());
+                        
+                        const temp_html =   `<button id="${reviews[i]._id}" onclick="deleteReview('${reviews[i]._id}')">
+                                                ${reviews[i].title}, ${reviews[i].content}, ${new_date}
+                                            </button>
+                                            <br>`
+
+                        $('.reviews').append(temp_html);
+                    }
+                }
+            });
+        }
+
+        function getOneReview(reviewId) {
+            console.log("reviewId:", reviewId);
+
+            $.ajax({
+                type: "GET",
+                url: `/api/review/${reviewId}`,
+                data: {},
+                success: function(response) {
+                    const review = response.review;
+
+                    console.log(review);
+                }
+            });
+        }
+
+        function postReview() {
+            const title = $('#title').val();
+            const content = $('#content').val();
+
+            $.ajax({
+                type: "POST",
+                url: "/api/review",
+                data: {
+                    title: title,
+                    content: content,
+                },
+                success: function(response) {
+                    console.log(response);
+                }
+            });
+        }
+
+        function putReview(reviewId) {
+            const title = "싫어요";
+            const content = "안가다시는";
+
+            $.ajax({
+                type: "PUT",
+                url: `/api/review/${reviewId}`,
+                data: {
+                    title: title,
+                    content: content,
+                },
+                success: function(response) {
+                    console.log(response);
+                }
+            });
+        }
+
+        function deleteReview(reviewId) {
+            $.ajax({
+                type: "DELETE",
+                url: `/api/review/${reviewId}`,
+                data: {},
+                success: function(response) {
+                    console.log(response);
+                }
+            });
+        }
+
+    </script>
+</head>
+<body>
+    <div>
+        <input id="title" type="text"><input id="content" type="text">
+        <button onclick="postReview()">post</button>
+    </div>
+    <div class="reviews">
+
+    </div>
+</body>
+</html>
