@@ -1,0 +1,27 @@
+{
+  "name": "14hotel",
+  "version": "1.0.0",
+  "description": "14hotel",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gar-den/14hotel_back.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gar-den/14hotel_back/issues"
+  },
+  "homepage": "https://github.com/gar-den/14hotel_back#readme",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "joi": "^17.4.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.13.2",
+    "virtual": "^0.2.0"
+  }
+}
