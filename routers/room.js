@@ -7,7 +7,7 @@ router.get('/', async (req, res) => {
   try {
     const rooms = await Room.find({}).exec();
 
-    res.json({ message: 'Success', rooms: rooms });
+    res.json({ message: 'success', rooms: rooms });
   } catch (err) {
     res.json({ message: 'fail' });
   }
@@ -20,7 +20,7 @@ router.get('/:roomId', async (req, res) => {
     const room = await Room.findOne({ _Id }).exec();
     console.log(room);
 
-    res.json({ message: 'Success', room: room });
+    res.json({ message: 'success', room: room });
   } catch (err) {
     res.json({ message: 'fail' });
   }
@@ -31,7 +31,7 @@ router.post('/', async (req, res) => {
 
   await Room.create({ name: name, image: image, price: price });
 
-  res.json({ message: 'Success' });
+  res.json({ message: 'success' });
 });
 
 // {
