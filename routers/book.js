@@ -3,7 +3,6 @@ const router = express.Router();
 const Book = require("../schemas/book");
 const Room = require("../schemas/room");
 
-//아래 함수에 room Id 추가, 룸이 있는지 확인 과정 추가.
 router.post("/", async (req, res) => {
   const { roomId, adult, kid, startDate, endDate } = req.body;
 
@@ -11,18 +10,24 @@ router.post("/", async (req, res) => {
   startDate = new Date(startDate);
 
   difference = (endDate - startDate) / (1000 * 60 * 60 * 24);
-  
-
-  // startDate, endDate 계산해서 price 책정해야함!
-  // 밑에도 다 startDate, endDate 있는 것으로 수정해야 함
 
   try {
-    const isRoomExist = await Room.exists({ _id: roomId });
+    const isRoomExist = await Room.findOne({ _id: roomId });
     if (!isRoomExist) {
       return res.status(401).json({ message: false });
     }
 
-    const book = await Book.create({ roomId, date, adult, kid });
+    const tempPrice = isRoomExist.price;
+    const price = difference * tempPrice;
+
+    const book = await Book.create({
+      roomId,
+      startDate,
+      endDate,
+      adult,
+      kid,
+      price,
+    });
 
     return res.json({ message: true, bookId: book._id });
   } catch (e) {
@@ -42,7 +47,6 @@ router.get("/", async (req, res) => {
 
 router.put("/:bookId", async (req, res) => {
   const { bookId: _id } = req.params;
-
   try {
     const isExist = await Book.exists({ _id });
     if (!isExist) {
