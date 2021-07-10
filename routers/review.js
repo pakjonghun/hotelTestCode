@@ -1,4 +1,4 @@
-// 정원 review
+// 정원
 
 const express = require('express');
 const router = express.Router();
