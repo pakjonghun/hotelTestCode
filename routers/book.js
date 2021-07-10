@@ -66,8 +66,7 @@ router.put("/:bookId", async (req, res) => {
 
   let validate = [];
   for (let item in req.body) {
-    req.body[item].length !== 0;
-    validate.push(item);
+    if (req.body[item].length !== 0) validate.push(item);
   }
 
   if (validate.length === 0) return res.json({ message: "fail" });
