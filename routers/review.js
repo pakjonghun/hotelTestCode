@@ -11,7 +11,7 @@ router.post("/", async (req, res, next) => {
 
     await Reviews.create({ title: title, content: content, date: date });
 
-    res.send({ message: "success" });
+    res.json({ message: "success" });
 });
 
 // 리뷰 전체 가져오기
@@ -45,7 +45,7 @@ router.put("/:reviewId", async (req, res, next) => {
         await Reviews.updateOne({ _id: reviewId }, {$set: {title, content, date: new Date()}});
     }
 
-    res.send({ message: "success" });
+    res.json({ message: "success" });
 });
 
 // 리뷰 하나 삭제하기
@@ -58,7 +58,7 @@ router.delete("/:reviewId", async (req, res, next) => {
         await Reviews.deleteOne({ _id: reviewId });
     }
 
-    res.send({ message: "success" });
+    res.json({ message: "success" });
 });
 
 
