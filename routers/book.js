@@ -4,7 +4,7 @@ const Book = require("../schemas/book");
 const Room = require("../schemas/room");
 
 router.post("/", async (req, res) => {
-  const { roomId, adult, kid, startDate, endDate } = req.body;
+  let { roomId, adult, kid, startDate, endDate } = req.body;
 
   endDate = new Date(endDate);
   startDate = new Date(startDate);
@@ -13,6 +13,7 @@ router.post("/", async (req, res) => {
 
   try {
     const isRoomExist = await Room.findOne({ _id: roomId });
+
     if (!isRoomExist) {
       return res.status(401).json({ message: false });
     }
@@ -43,6 +44,14 @@ router.get("/", async (req, res) => {
   console.log(books);
 
   res.send({ books });
+});
+
+router.get("/:bookId", async (req, res) => {
+  const bookId = req.params.bookId;
+  console.log(bookId)
+  const book = await Book.findById(bookId);
+
+  res.send({ book });
 });
 
 router.put("/:bookId", async (req, res) => {

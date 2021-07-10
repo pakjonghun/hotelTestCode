@@ -8,11 +8,10 @@ const Reviews = require("../schemas/review");
 router.post("/", async (req, res, next) => {
     const {title, content} = req.body;
     const date = new Date();
-    // const image = "https://storage.googleapis.com/static-content-hc/sites/default/files/cataloina_porto_doble_balcon2_2.jpg";
 
     await Reviews.create({ title: title, content: content, date: date });
 
-    res.send({ message: "posted" });
+    res.send({ message: "success" });
 });
 
 // 리뷰 전체 가져오기
@@ -20,7 +19,7 @@ router.get("/", async (req, res, next) => {
     try {
         const reviews = await Reviews.find({ });
 
-        res.json({ reviews: reviews });
+        res.json({ message: "success", reviews: reviews });
     } catch (err) {
         res.send({ err: err });
     }
@@ -32,7 +31,7 @@ router.get("/:reviewId", async (req, res, next) => {
 
     const review = await Reviews.findOne({ _id: reviewId });
 
-    res.json({ review: review });
+    res.json({ message: "success", review: review });
 });
 
 // 리뷰 하나 수정하기
@@ -46,7 +45,7 @@ router.put("/:reviewId", async (req, res, next) => {
         await Reviews.updateOne({ _id: reviewId }, {$set: {title, content, date: new Date()}});
     }
 
-    res.send({ message: "modified" });
+    res.send({ message: "success" });
 });
 
 // 리뷰 하나 삭제하기
@@ -59,7 +58,7 @@ router.delete("/:reviewId", async (req, res, next) => {
         await Reviews.deleteOne({ _id: reviewId });
     }
 
-    res.send({ message: "deleted" });
+    res.send({ message: "success" });
 });
 
 
