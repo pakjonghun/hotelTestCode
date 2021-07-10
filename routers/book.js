@@ -7,7 +7,11 @@ const Room = require("../schemas/room");
 router.post("/", async (req, res) => {
   const { roomId, adult, kid, startDate, endDate } = req.body;
 
-  console.log(roomId, adult, kid, startDate, endDate);
+  endDate = new Date(endDate);
+  startDate = new Date(startDate);
+
+  difference = (endDate - startDate) / (1000 * 60 * 60 * 24);
+  
 
   // startDate, endDate 계산해서 price 책정해야함!
   // 밑에도 다 startDate, endDate 있는 것으로 수정해야 함
