@@ -12,7 +12,11 @@ const BookSchema = new mongoose.Schema({
     ref: "Room",
     require: true,
   },
-  date: {
+  startDate: {
+    type: String,
+    require: true,
+  },
+  endDate: {
     type: String,
     require: true,
   },
@@ -22,6 +26,11 @@ const BookSchema = new mongoose.Schema({
     default: 0,
   },
   kid: {
+    type: Number,
+    default: 0,
+    require: true,
+  },
+  price: {
     type: Number,
     default: 0,
     require: true,

@@ -1,17 +1,23 @@
-// 정훈
-
 const express = require("express");
 const router = express.Router();
 const Book = require("../schemas/book");
-const Room = require("../schemas/review");
+const Room = require("../schemas/room");
 
-//예약할때 고를 방 정보 넘겨주기 이거 필요없나?;;;;
-
+//아래 함수에 room Id 추가, 룸이 있는지 확인 과정 추가.
 router.post("/", async (req, res) => {
-  const { roomId, adult, kid } = req.body;
-  const date = new Date();
+  const { roomId, adult, kid, startDate, endDate } = req.body;
+
+  console.log(roomId, adult, kid, startDate, endDate);
+
+  // startDate, endDate 계산해서 price 책정해야함!
+  // 밑에도 다 startDate, endDate 있는 것으로 수정해야 함
 
   try {
+    const isRoomExist = await Room.exists({ _id: roomId });
+    if (!isRoomExist) {
+      return res.status(401).json({ message: false });
+    }
+
     const book = await Book.create({ roomId, date, adult, kid });
 
     return res.json({ message: true, bookId: book._id });
@@ -22,22 +28,24 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get('/', async (req, res) => {
-  const books = await Book.find({ });
+router.get("/", async (req, res) => {
+  const books = await Book.find({});
 
   console.log(books);
 
   res.send({ books });
-})
+});
 
-router.patch("/edit/:bookId", async (req, res) => {
+router.put("/:bookId", async (req, res) => {
+  const { bookId: _id } = req.params;
+
   try {
-    const { bookId: _id } = req.params;
-
     const isExist = await Book.exists({ _id });
     if (!isExist) {
       return res.status(404).json({ message: false });
     }
+
+    console.log(isExist);
 
     await Book.updateOne({ _id }, { $set: req.body });
 
@@ -48,7 +56,7 @@ router.patch("/edit/:bookId", async (req, res) => {
   }
 });
 
-router.delete("/delete/:bookId", async (req, res) => {
+router.delete("/:bookId", async (req, res) => {
   const { bookId: _id } = req.params;
   try {
     const isExist = await Book.exists({ _id });
