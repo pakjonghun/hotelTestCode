@@ -56,28 +56,20 @@ router.get("/:bookId", async (req, res) => {
 
 router.put("/:bookId", async (req, res) => {
   const { bookId: _id } = req.params;
-  let validate = [];
-  for (let item in req.body) {
-    if (req.body[item].length !== 0) validate.push(item);
-  }
-
-  if (validate.length === 0) return res.json({ message: "fail" });
-
   try {
     const isExist = await Book.exists({ _id });
     if (!isExist) {
-      // return res.status(404).json({ message: "fail" });
-      return res.json({ message: "fail" });
+      return res.status(404).json({ message: false });
     }
 
     console.log(isExist);
 
     await Book.updateOne({ _id }, { $set: req.body });
 
-    return res.json({ message: "success" });
+    return res.json({ message: true });
   } catch (e) {
     console.log(e);
-    return res.json({ message: "fail" });
+    return res.status(500).json({ message: false });
   }
 });
 
