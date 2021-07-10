@@ -59,5 +59,6 @@ router.post('/', async (req, res) => {
 //    "image":"https://www.hoteltheplaza.com/m/_resource/images/room/thumb_premier_suite.jpg",
 //    "price": 1000000
 // }
+// folk 다시는 안쓴다
 
 module.exports = router;
