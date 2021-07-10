@@ -63,7 +63,7 @@ router.get("/:bookId", async (req, res) => {
 
 router.put("/:bookId", async (req, res) => {
   const { bookId: _id } = req.params;
-  // a;
+
   let validate = [];
   for (let item in req.body) {
     req.body[item].length !== 0;
