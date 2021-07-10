@@ -1,5 +1,3 @@
-//안녕하세요잘 가셪가셨습니다.
-console.log(1);
 const express = require("express");
 const router = express.Router();
 const Book = require("../schemas/book");
