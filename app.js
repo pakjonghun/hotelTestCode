@@ -33,23 +33,23 @@ const bookRouter = require("./routers/book");
 app.use("/api/book", [bookRouter]);
 
 //Session Setting
-app.use(
-    session({
-      secret: "secret",
-      resave: false,
-      saveUninitialized: false,
-      store: MongoStore.create({
-        mongoUrl: "mongodb://localhost/14hotel",
-      }),
-      cookie: {
-        secure: true,
-        cookie: {
-          //로그인은 하루동안 로그인 유지
-          maxAge: 1000 * 60 * 24,
-        },
-      },
-    })
-  );
+// app.use(
+//     session({
+//       secret: "secret",
+//       resave: false,
+//       saveUninitialized: false,
+//       store: MongoStore.create({
+//         mongoUrl: "mongodb://localhost/14hotel",
+//       }),
+//       cookie: {
+//         secure: true,
+//         cookie: {
+//           //로그인은 하루동안 로그인 유지
+//           maxAge: 1000 * 60 * 24,
+//         },
+//       },
+//     })
+//   );
 
 app.listen(port, () => {
     console.log(`listening at http://localhost:${port}`);

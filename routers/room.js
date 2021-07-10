@@ -16,8 +16,8 @@ router.get('/', async (req, res) => {
 // 방 정보 하나만 가져오기
 router.get('/:roomId', async (req, res) => {
   try {
-    const { roomId: _Id } = req.params;
-    const room = await Room.findOne({ _Id }).exec();
+    const { roomId: _id } = req.params;
+    const room = await Room.findOne({ _id }).exec();
     console.log(room);
 
     res.json({ message: 'success', room: room });

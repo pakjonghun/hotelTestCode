@@ -9,6 +9,7 @@ const jwt = require("jsonwebtoken");
 
 router.post("/", async (req, res) => {
   const { nickname, email, password, confirmPassword } = req.body;
+  console.log("::", nickname, email, password, confirmPassword);
   const regExp = new RegExp(
     /^([0-9a-zA-Z]+)@([0-9a-zA-Z]+)[.]([a-zA-Z]*)/,
     "i"
@@ -43,13 +44,13 @@ router.post("/", async (req, res) => {
     }
 
     const isExist = await User.exists({ $or: [{ nickname }, { email }] });
-    console.log(isExist);
+
     if (isExist === true) {
       //   return res
       //     .status(401)
       //     .json({ message: "님네임이나 이메일이 중복됩니다. " });
       // }
-      return res.json({ message: "님네임이나 이메일이 중복됩니다. " });
+      return res.json({ message: "닉네임이나 이메일이 중복됩니다. " });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -70,9 +71,16 @@ router.post("/", async (req, res) => {
 
 router.post("/auth", async (req, res) => {
   const { email, password: oldOne } = req.body;
+  
   try {
-    const user = await User.findOne({ email, password });
+    const user = await User.findOne({ email });
+
+    if (user == null) {
+      return res.json({ message: "존재하지 않는 계정입니다." });
+    }
+    
     const isPasswordCorrect = await bcrypt.compare(oldOne, user.password);
+
     if (!user || !isPasswordCorrect) {
       // return res.status(401).json({ message: "존재하지 않는 계정입니다." });
       return res.json({ message: "존재하지 않는 계정입니다." });
@@ -80,8 +88,8 @@ router.post("/auth", async (req, res) => {
     //허허 토큰..
     // const token = await jwt.sign({ nickname: user.nickname }, "secret");
 
-    req.session.loggedIn = true;
-    req.session.user = user.nickName;
+    // req.session.loggedIn = true;
+    // req.session.user = user.nickName;
 
     return res.json({ message: "success" });
   } catch (e) {
@@ -92,7 +100,7 @@ router.post("/auth", async (req, res) => {
   }
 });
 
-//로그아웃 요청을 받을 때만 살려주면됩니다.(사용할지 안할지 모름)
+// 로그아웃 요청을 받을 때만 살려주면됩니다.(사용할지 안할지 모름)
 // router.post("/logout", (req, res) => {
 //   req.session.destroy();
 //   //이거 어떻게 응답 할지 정해야 함.
