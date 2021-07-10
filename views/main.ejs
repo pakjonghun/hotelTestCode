@@ -27,6 +27,9 @@
             console.log(rooms[i].name);
             console.log(rooms[i].price);
             console.log(rooms[i].image);
+
+            tempHtml = `<h3>${rooms[i].name}</h3><h3>${rooms[i].price}</h3><img src="${rooms[i].image}">`;
+            $('#abc').append(tempHtml);
           }
         },
       });
@@ -47,5 +50,9 @@
       });
     }
   </script>
-  <body></body>
+  <body>
+    <div id="abc">
+      <h3></h3>
+    </div>
+  </body>
 </html>
