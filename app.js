@@ -1,34 +1,34 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const port = 3000
+const port = 3000;
 
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 
-const connect = require('./schemas')
+const connect = require("./schemas");
 connect();
 
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 //javascript folder setting
 app.use("/static", express.static(__dirname + "/js"));
 
-app.use(express.static('public'));
+app.use(express.static("public"));
 
-app.set('views', __dirname + "/views");
-app.set('view engine', 'ejs');
+app.set("views", __dirname + "/views");
+app.set("view engine", "ejs");
 
-const router = require('./routers/router');
-app.use('/', [router]);
+const router = require("./routers/router");
+app.use("/", [router]);
 
 // Making API
-const userRouter = require('./routers/user');
-app.use('/api/user', [userRouter]);
-const roomRouter = require('./routers/room');
-app.use('/api/room', [roomRouter]);
-const reviewRouter = require('./routers/review');
-app.use('/api/review', [reviewRouter]);
+const userRouter = require("./routers/user");
+app.use("/api/user", [userRouter]);
+const roomRouter = require("./routers/room");
+app.use("/api/room", [roomRouter]);
+const reviewRouter = require("./routers/review");
+app.use("/api/review", [reviewRouter]);
 const bookRouter = require("./routers/book");
 app.use("/api/book", [bookRouter]);
 
@@ -52,5 +52,7 @@ app.use("/api/book", [bookRouter]);
 //   );
 
 app.listen(port, () => {
-    console.log(`listening at http://localhost:${port}`);
-})
+  console.log(`listening at http://localhost:${port}`);
+});
+
+module.exports = app;

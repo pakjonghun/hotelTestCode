@@ -1,0 +1,108 @@
+const Room = require("./schemas/room");
+const Book = require("./schemas/book");
+
+exports.dividePost = async (req, res) => {
+  let { roomId, adult, kid, startDate, endDate } = req.body;
+
+  endDate = new Date(endDate);
+  startDate = new Date(startDate);
+
+  difference = (endDate - startDate) / (1000 * 60 * 60 * 24);
+
+  try {
+    const isRoomExist = await Room.findOne({ _id: roomId });
+    if (!isRoomExist) {
+      // return res.status(401).json({ message: "fail" });
+      return res.json({ message: "fail" });
+    }
+
+    const tempPrice = isRoomExist.price;
+    const price = difference * tempPrice;
+    const book = await Book.create({
+      roomId,
+      startDate,
+      endDate,
+      adult,
+      kid,
+      price,
+    });
+
+    return res.json({ message: "success", bookId: book._id });
+  } catch (e) {
+    console.log(e);
+    return res.json({ message: "fail" });
+  }
+};
+
+exports.divideGetBook = async (req, res) => {
+  const books = await Book.find({});
+
+  res.json({ books });
+};
+
+exports.divideGetBookById = async (req, res) => {
+  const bookId = req.params.bookId;
+  console.log(bookId);
+  const book = await Book.findById(bookId);
+  console.log(book);
+  res.json({ book });
+};
+
+exports.dividePut = async (req, res) => {
+  const { bookId: _id } = req.params;
+  let validate = [];
+  for (let item in req.body) {
+    if (req.body[item].length !== 0) validate.push(item);
+  }
+
+  if (validate.length === 0) return res.json({ message: "fail" });
+
+  try {
+    const isExist = await Book.exists({ _id });
+    if (!isExist) {
+      return res.json({ message: "fail" });
+    }
+
+    let { roomId, adult, kid, startDate, endDate } = req.body;
+
+    endDate = new Date(endDate);
+    startDate = new Date(startDate);
+
+    difference = (endDate - startDate) / (1000 * 60 * 60 * 24);
+
+    const isRoomExist = await Room.findOne({ _id: roomId });
+    if (!isRoomExist) {
+      // return res.status(401).json({ message: "fail" });
+      return res.json({ message: "fail" });
+    }
+
+    const tempPrice = isRoomExist.price;
+    const price = difference * tempPrice;
+    await Book.updateOne(
+      { _id },
+      { $set: { adult, kid, startDate, endDate, price } }
+    );
+
+    return res.json({ message: "success" });
+  } catch (e) {
+    console.log(e);
+    return res.json({ message: "fail" });
+  }
+};
+
+exports.divideDelete = async (req, res) => {
+  const { bookId: _id } = req.params;
+  try {
+    const isExist = await Book.exists({ _id });
+    if (!isExist) {
+      return res.status(404).json({ message: "fail" });
+    }
+
+    await Book.remove({ _id });
+
+    return res.json({ message: "success" });
+  } catch (e) {
+    console.log(e);
+    return res.json({ message: "fail" });
+  }
+};
